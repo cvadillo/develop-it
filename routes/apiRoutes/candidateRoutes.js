@@ -4,7 +4,7 @@ const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
 // Get all candidates and their party affiliation
-router.get('/api/candidates', (req, res) => {
+router.get('/candidates', (req, res) => {
   const sql = `SELECT candidates.*, parties.name 
                 AS party_name 
                 FROM candidates 
@@ -24,7 +24,7 @@ router.get('/api/candidates', (req, res) => {
 });
 
 // Get single candidate with party affiliation
-router.get('/api/candidate/:id', (req, res) => {
+router.get('/candidate/:id', (req, res) => {
   const sql = `SELECT candidates.*, parties.name 
                AS party_name 
                FROM candidates 
@@ -46,7 +46,7 @@ router.get('/api/candidate/:id', (req, res) => {
 });
 
 // Create a candidate
-router.post('/api/candidate', ({ body }, res) => {
+router.post('/candidate', ({ body }, res) => {
   // Candidate is allowed not to be affiliated with a party
   const errors = inputCheck(
     body,
@@ -81,7 +81,7 @@ router.post('/api/candidate', ({ body }, res) => {
 });
 
 // Update a candidate's party
-router.put('/api/candidate/:id', (req, res) => {
+router.put('/candidate/:id', (req, res) => {
   // Candidate is allowed to not have party affiliation
   const errors = inputCheck(req.body, 'party_id');
   if (errors) {
@@ -111,7 +111,7 @@ router.put('/api/candidate/:id', (req, res) => {
 });
 
 // Delete a candidate
-router.delete('/api/candidate/:id', (req, res) => {
+router.delete('/candidate/:id', (req, res) => {
   const sql = `DELETE FROM candidates WHERE id = ?`;
   const params = [req.params.id];
   db.query(sql, params, (err, result) => {
